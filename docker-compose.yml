@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8001:8001"  # Backend API
+      - "3000:3000"  # Frontend
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - DB_NAME=email_verifier
+      - CORS_ORIGINS=*
+      - REACT_APP_BACKEND_URL=http://localhost:8001
+    depends_on:
+      - mongo
+    volumes:
+      - ./logs:/var/log/supervisor
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
