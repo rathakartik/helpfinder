@@ -223,10 +223,10 @@ function App() {
             </div>
             <div className="hidden md:flex items-center space-x-2 text-sm">
               <Zap className="w-4 h-4 text-amber-500" />
-              <span className="text-slate-600">Want sales calls from leads?</span>
-              <a href="https://AlexBerman.com/Mastermind" target="_blank" rel="noopener noreferrer" 
+              <span className="text-slate-600">Want Free tool to collect leads?</span>
+              <a href="https://marketmindai.com" target="_blank" rel="noopener noreferrer" 
                  className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                AlexBerman.com/Mastermind
+                Marketmindai.com/tools
               </a>
               <Zap className="w-4 h-4 text-amber-500" />
             </div>
@@ -573,6 +573,18 @@ function App() {
                       <p className="font-medium text-slate-900 mb-1">Found Email</p>
                       <p className="text-lg text-slate-700">{result.found_email}</p>
                       <p className="text-sm text-slate-500 mt-1">{result.reason}</p>
+                    </div>
+                  )}
+                  {result.found_email === null && result.reason && (
+                    <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                      <div className="flex items-center space-x-2">
+                        <AlertCircle className="w-5 h-5 text-amber-500" />
+                        <p className="font-medium text-amber-900">No Valid Email Found</p>
+                      </div>
+                      <p className="text-sm text-amber-700 mt-1">
+                        Unable to find a valid email pattern for {result.firstname} {result.lastname} at {result.domain}
+                      </p>
+                      <p className="text-xs text-amber-600 mt-1">Reason: {result.reason.replace(/_/g, ' ')}</p>
                     </div>
                   )}
                 </div>
