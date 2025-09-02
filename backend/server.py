@@ -160,7 +160,7 @@ def find_email_with_scraping(firstname: str, lastname: str, domain: str, proxy: 
     # First try common patterns
     for pattern in patterns:
         status, reason = check_email(pattern, proxy)
-        if status == "valid":
+        if status in ["valid","risky"]:
             return pattern, f"found_pattern_{reason}"
     
     # Try web scraping if patterns don't work
@@ -190,9 +190,9 @@ def find_email_with_scraping(firstname: str, lastname: str, domain: str, proxy: 
                     if status in ["valid", "risky"]:
                         return email, f"found_scraping_{reason}"
         
-        return None, "not_found_scraping"
+        return None, "not_valid_email_found"
     except Exception as e:
-        return None, f"scraping_error_{str(e)[:50]}"
+        return None, f"no_valid_email_found_error_{str(e)[:50]}"
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
